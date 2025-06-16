@@ -1,0 +1,92 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: hsl(0, 0%, 95%);
+}
+
+#mainBox {
+    height: 50vh;
+    border: 2px solid black;
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+}
+
+#display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+#hours,
+#min,
+#milisec {
+    margin: 0px;
+}
+
+#hours {
+    font-size: 2em;
+
+}
+
+#min {
+    font-size: 1.5em;
+
+}
+
+#sec {
+    font-size: 1.3em;
+
+}
+
+#milisec {
+    font-size: .9em;
+
+}
+
+#stopBtn,
+#startBtn,
+#resetBtn {
+    font-size: 1.2em;
+    color: rgb(236, 224, 224);
+    border: none;
+    border-radius: 6px;
+    transition: background-color, 1s, box-shadow, 1s, color, 1s;
+    cursor: pointer;
+    padding: 5px 12px;
+}
+
+#stopBtn {
+    background-color: hsl(0, 87%, 70%);
+
+}
+
+#startBtn {
+    background-color: hsl(120, 70%, 49%);
+
+}
+
+#resetBtn {
+    background-color: hsl(0, 0%, 55%);
+}
+
+#stopBtn:hover {
+    background-color: hsl(0, 84%, 62%);
+    color: black;
+    box-shadow: 7px 10px 9px grey;
+}
+
+#startBtn:hover {
+    background-color: hsl(120, 92%, 40%);
+    box-shadow: 7px 10px 9px grey;
+    color: black;
+}
+#resetBtn:hover{
+    box-shadow: 7px 10px 9px grey;
+    background-color: hsl(0, 0%, 25%);
+    
+}

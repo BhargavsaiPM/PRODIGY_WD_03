@@ -1,60 +1,57 @@
-let hours = 0;
-let min = 0;
-let sec = 0;
-let milisec = 0;
-let intervel;
-let running = false;
+const board = document.getElementById('gameBoard');
+const statusText = document.getElementById('status');
+let cells = Array(9).fill(null);
+let currentPlayer = "X";
+let gameActive = true;
 
-const hoursDisplay = document.getElementById("hours");
-const minDisplay = document.getElementById("min");
-const secDisplay = document.getElementById("sec");
-const milisecDisplay = document.getElementById("milisec");
-
-function startBtn() {
-    if (!running) {
-        running = true;
-        intervel = setInterval(updateTime, 10);
-    }
+function createBoard() {
+  board.innerHTML = '';
+  cells.forEach((_, index) => {
+    const cell = document.createElement('div');
+    cell.classList.add('cell');
+    cell.dataset.index = index;
+    cell.addEventListener('click', handleClick);
+    board.appendChild(cell);
+  });
 }
 
-function stopBtn() {
-    running = false;
-    clearInterval(intervel);
+function handleClick(e) {
+  const index = e.target.dataset.index;
+  if (!gameActive || cells[index]) return;
+
+  cells[index] = currentPlayer;
+  e.target.textContent = currentPlayer;
+
+  if (checkWin(currentPlayer)) {
+    statusText.textContent = `Player ${currentPlayer} wins!`;
+    gameActive = false;
+  } else if (cells.every(cell => cell !== null)) {
+    statusText.textContent = "It's a draw!";
+    gameActive = false;
+  } else {
+    currentPlayer = currentPlayer === "X" ? "O" : "X";
+    statusText.textContent = `Player ${currentPlayer}'s turn`;
+  }
 }
 
-function resetBtn() {
-    running = false;
-    clearInterval(intervel);
-    hours = min = sec = milisec = 0;
-    updateDisplay();
+function checkWin(player) {
+  const winPatterns = [
+    [0,1,2], [3,4,5], [6,7,8], // Rows
+    [0,3,6], [1,4,7], [2,5,8], // Columns
+    [0,4,8], [2,4,6]           // Diagonals
+  ];
+
+  return winPatterns.some(pattern => 
+    pattern.every(index => cells[index] === player)
+  );
 }
 
-function updateTime() {
-    milisec++;
-    if (milisec >= 100) {
-        milisec = 0
-        sec++
-    }
-    if (sec >= 60) {
-        sec = 0;
-        min++;
-    }
-    if (min >= 60) {
-        min = 0;
-        hours++;
-    }
-    if (hours >= 24) {
-        hours = 1;
-    }
-    updateDisplay();
+function resetGame() {
+  cells = Array(9).fill(null);
+  currentPlayer = "X";
+  gameActive = true;
+  statusText.textContent = "Player X's turn";
+  createBoard();
 }
 
-function updateDisplay() {
-    hoursDisplay.textContent = `${format(hours)}:`;
-    minDisplay.textContent = `${format(min)}:`;
-    secDisplay.textContent = `${format(sec)}.`;
-    milisecDisplay.textContent = `${format(milisec)}`;
-}
-function format(unit) {
-    return unit < 10 ? "0" + unit : unit;
-}
+createBoard();
